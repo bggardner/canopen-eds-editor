@@ -183,70 +183,6 @@ function addEventListeners(element) {
   });
 }
 
-function getDataType(n) {
-  switch (n) {
-    case 0x0001:
-        return 'BOOLEAN';
-    case 0x0002:
-        return 'INTEGER8';
-    case 0x0003:
-        return 'INTEGER16';
-    case 0x0004:
-        return 'INTEGER32';
-    case 0x0005:
-        return 'UNSIGNED8';
-    case 0x0006:
-        return 'UNSIGNED16';
-    case 0x0007:
-        return 'UNSIGNED32';
-    case 0x0008:
-        return 'REAL32';
-    case 0x0009:
-        return 'VISIBLE_STRING';
-    case 0x000A:
-        return 'OCTET_STRING';
-    case 0x000B:
-        return 'UNICODE_STRING';
-    case 0x000C:
-        return 'TIME_OF_DAY';
-    case 0x000D:
-        return 'TIME_DIFFERENCE';
-    case 0x000F:
-        return 'DOMAIN';
-    case 0x0020:
-        return 'PDO_COMMUNICATION_PARAMETER';
-    case 0x0021:
-        return 'PDO_MAPPING';
-    case 0x0022:
-        return 'SDO_PARAMETER';
-    case 0x0023:
-        return 'IDENTITY';
-    default:
-        throw 'Unsupported data type';
-  }
-}
-
-function getObjectType(n) {
-  switch (n) {
-    case 0:
-      return 'NULL';
-    case 2:
-      return 'DOMAIN';
-    case 5:
-      return 'DEFTYPE';
-    case 6:
-      return 'DEFSTRUCT';
-    case 7:
-      return 'VAR';
-    case 8:
-      return 'ARRAY';
-    case 9:
-      return 'RECORD';
-    default:
-      throw 'Unsupported object type';
-  }
-}
-
 function loadObject(parser, sectionName, kind) {
   if (document.querySelector(`[data-mi="${sectionName}"]`)) {
     throw `Index 0x${sectionName} already exists`;
@@ -293,7 +229,7 @@ function loadObject(parser, sectionName, kind) {
   html += `
       </select>
     </td>
-    <td>${getObjectType(objectType)}</td>
+    <td>${CanOpen.OBJECT_TYPES[objectType]}</td>
     <td>`;
   const dataType = parseInt(parser.get(sectionName, 'DataType', objectType == 0x2 ? 0x000F : 0), 0);
   if (objectType != 0x0) { // Not NULL
@@ -500,7 +436,7 @@ function loadObject(parser, sectionName, kind) {
       <input type="text" maxlength="241" value="${parser.get(subSectionName, 'ParameterName')}">
     </td>
     <td></td>
-    <td>${getObjectType(subObjectType)}</td>
+    <td>${CanOpen.OBJECT_TYPES[subObjectType]}</td>
     <td>`;
       if (subObjectType != 0x00) {
         html += `
@@ -931,7 +867,7 @@ document.addEventListener('DOMContentLoaded', event => {
     <td></td>
     <td><input type="text" maxlength="241" value="${tfoot.querySelector('td:nth-child(3) input').value}"></td>
     <td>${tfoot.querySelector('td:nth-child(4)').innerHTML}</td>
-    <td>${getObjectType(objectCode)}</td>
+    <td>${CanOpen.OBJECT_TYPES[objectCode]}</td>
     <td>${tfoot.querySelector('td:nth-child(6)').innerHTML}</td>
     <td>${tfoot.querySelector('td:nth-child(7)').innerHTML}</td>
     <td>${tfoot.querySelector('td:nth-child(8)').innerHTML}</td>
@@ -1141,6 +1077,44 @@ document.addEventListener('DOMContentLoaded', event => {
     a.dispatchEvent(new MouseEvent('click'));
     a.remove();
   });
+
+  const parser = new ConfigIniParser();
+  parser.parse(`[MandatoryObjects]
+SupportedObjects=3
+1=0x1000
+2=0x1001
+3=0x1018
+
+[1000]
+ParameterName=Device type
+DataType=7
+AccessType=ro
+
+[1001]
+ParameterName=Error register
+DataType=5
+AccessType=ro
+
+[1018]
+ParameterName=Identity object
+ObjectType=9
+SubNumber=2
+
+[1018sub0]
+ParameterName=Highest sub-index supported
+DataType=5
+AccessType=ro
+DefaultValue=1
+
+[1018sub1]
+ParameterName=Vendor-ID
+DataType=7
+AccessType=ro
+`);
+
+  loadObject(parser, '1000');
+  loadObject(parser, '1001');
+  loadObject(parser, '1018');
 
   addEventListeners(document);
 });

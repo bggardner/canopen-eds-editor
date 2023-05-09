@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CANopen EDS Editor</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="eds.css">
+  </head>
+  <body>
+    <header>
+      <label for="load" class="btn btn-primary">&#8679; Load</label>
+      <input type="file" id="load">
+      <hr>
+      <h1>CANopen EDS Editor</h1>
+      <hr>
+      <button type="button" class="btn btn-primary">&#8681; Save</button>
+    </header>
+    <main>
+      <form>
+        <fieldset>
+          <table class="show">
+            <tbody>
+              <tr>
+                <th>
+                  <label for="file_name">File Name</label>
+                </th>
+                <td>
+                  <input type="text" id="file_name" required>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="file_version">File Version</label>
+                </th>
+                <td>
+                  <input type="number" id="file_version" min="0" max="255" step="1" value="0" required>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="file_revision">File Revision</label>
+                </th>
+                <td>
+                  <input type="number" id="file_revision" min="0" max="255" step="1" value="0" required>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="eds_version">EDS Version</label>
+                </th>
+                <td>
+                  <input type="text" id="eds_version" value="4.0">
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="description">Description</label>
+                </th>
+                <td>
+                  <input type="text" id="description" maxlength="243" required>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="creation_time">Creation Time</label>
+                </th>
+                <td>
+                  <input type="datetime-local" id="creation_time" required disabled>
+                  <input type="checkbox" id="auto_creation_time" checked>
+                  <label for="auto_creation_time" title="Set to current time at save">auto</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="created_by">Created By</label>
+                </th>
+                <td>
+                  <input type="text" id="created_by" maxlength="245" required>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="modification_time">Modification Time</label>
+                </th>
+                <td>
+                  <input type="datetime-local" id="modification_time" required disabled>
+                  <input type="checkbox" id="auto_modification_time" checked>
+                  <label for="auto_modification_time" title="Set to current time at save">auto</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="modified_by">Modified By</label>
+                </th>
+                <td>
+                  <input type="text" id="modified_by" maxlength="244" required>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <legend>File Info</legend>
+        </fieldset>
+        <fieldset>
+          <table>
+            <tbody>
+              <tr>
+                <th style="width: 10rem;">
+                  <label for="vendor_name">Vendor Name</label>
+                </th>
+                <td>
+                  <input type="text" id="vendor_name" maxlength="244">
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="vendor_number">Vendor Number</label>
+                </th>
+                <td>
+                  <input type="number" id="vendor_number" placeholder="[1018sub1]" disabled>
+                  <input type="checkbox" id="auto_vendor_number" checked>
+                  <label for="auto_vendor_number" title="Set to Default Value of [1018sub1]">auto</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="product_name">Product Name</label>
+                </th>
+                <td>
+                  <input type="text" id="product_name" maxlength="243" placeholder="[1008]">
+                  <input type="checkbox" id="auto_product_name">
+                  <label for="auto_product_name" title="Set to Default Value of [1008]">auto</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="product_number">Product Number</label>
+                </th>
+                <td>
+                  <input type="number" id="product_number" placeholder="[1018sub2]" disabled>
+                  <input type="checkbox" id="auto_product_number" checked>
+                  <label for="auto_product_number" title="Set to Default Value of [1018sub2]">auto</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="revision_number">Revision Number</label>
+                </th>
+                <td>
+                  <input type="number" id="revision_number" placeholder="[1018sub3]" disabled>
+                  <input type="checkbox" id="auto_revision_number" checked>
+                  <label for="auto_revision_number" title="Set to Default Value of [1018sub3]">auto</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="order_code">Order Code</label>
+                </th>
+                <td>
+                  <input type="text" id="order_code" maxlength="245">
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="baud_rates">Baud Rates</label>
+                </th>
+                <td>
+                  <select id="baud_rates" size="8" multiple>
+                    <option value="10">10 kbit/s</option>
+                    <option value="20">20 kbit/s</option>
+                    <option value="50">50 kbit/s</option>
+                    <option value="125">125 kbit/s</option>
+                    <option value="250">250 kbit/s</option>
+                    <option value="500">500 kbit/s</option>
+                    <option value="800">800 kbit/s</option>
+                    <option value="1000">1000 kbit/s</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label>Simple Boot-up</label>
+                </th>
+                <td>
+                  <input type="checkbox" id="bootup_master">
+                  <label for="bootup_master">Master</label>
+                  <input type="checkbox" id="bootup_slave" checked>
+                  <label for="bootup_slave">Slave</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="granularity">Granularity</label>
+                </th>
+                <td>
+                  <input type="number" id="granularity" min="0" max="64" step="1" value="8" required> bits
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="dynamic_channels">Dynamic Channels</label>
+                </th>
+                <td>
+                  <input type="number" id="dynamic_channels" min="0" max="65535" step="1" value="0" disabled>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label>Supported Options</label>
+                </th>
+                <td>
+                  <input type="checkbox" id="group_messaging">
+                  <label for="group_messaging">Group Messaging</label>
+                  <input type="checkbox" id="lss">
+                  <label for="lss">LSS</label>
+                  <input type="checkbox" id="compact_pdo" disabled>
+                  <label for="compact_pdo">CompactPDO</label>
+                  <input type="checkbox" id="safety" disabled>
+                  <label for="safety">Safety</label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="rx_pdos"># of RX PDOs</label>
+                </th>
+                <td>
+                  <input type="number" id="rx_pdos" min="0" max="65535" step="1" value="0" disabled>
+                  <input type="checkbox" id="auto_rx_pdos" checked>
+                  <label for="auto_rx_pdos" title="Set to # of objects in [1400]-[15FF]">auto<label>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="tx_pdos"># of TX PDOs</label>
+                </th>
+                <td>
+                  <input type="number" id="tx_pdos" min="0" max="65535" step="1" value="0" disabled>
+                  <input type="checkbox" id="auto_tx_pdos" checked>
+                  <label for="auto_tx_pdos" title="Set to # of objects in [1800]-[19FF]">auto<label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <legend>Device Info</legend>
+        </fieldset>
+        <fieldset>
+          <table>
+            <tbody>
+              <tr>
+                <th>
+                  <label for="dummy_usage">Dummy Usage</label>
+                </th>
+                <td>
+                  <select id="dummy_usage" size="7" multiple>
+                    <option value="1">BOOLEAN</option>
+                    <option value="2">INTEGER8</option>
+                    <option value="3">INTEGER16</option>
+                    <option value="4">INTEGER32</option>
+                    <option value="5">UNSIGNED8</option>
+                    <option value="6">UNSIGNED16</option>
+                    <option value="7">UNSIGNED32</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  <label for="comments">Comments</label>
+                </th>
+                <td>
+                  <textarea id="comments"></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <legend>Other</legend>
+        </fieldset>
+        <fieldset>
+          <table>
+            <thead>
+              <tr>
+                <th title="Main index">Index</th>
+                <th title="Sub-index">Sub</th>
+                <th title="Parameter name">Parameter Name</th>
+                <th title="Object kind">Category</th>
+                <th title="Object code">Type</th>
+                <th title="Data type">Data Type</th>
+                <th title="Access type">Access</th>
+                <th title="Low limit">Low Limit</th>
+                <th title="High limit">High Limit</th>
+                <th title="Default value">Default Value</th>
+                <th title="PDO mapping">MAP</th>
+                <th title="Object flags">Flags</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tfoot>
+              <td>
+                <input type="text" pattern="[0-9A-Fa-f]{4}" maxlength="4">
+                <sub>h</sub>
+              </td>
+              <td></td>
+              <td>
+                <input type="text" maxlength="241" disabled>
+              </td>
+              <td>
+                <select disabled>
+                  <option>mandatory</option>
+                  <option>optional</option>
+                </select>
+              </td>
+              <td>
+                <select disabled>
+                  <option value="0">NULL</option>
+                  <option value="2">DOMAIN</option>
+                  <option value="5">DEFTYPE</option>
+                  <option value="6">DEFSTRUCT</option>
+                  <option value="7">VAR</option>
+                  <option value="8">ARRAY</option>
+                  <option value="9">RECORD</option>
+                </select>
+              </td>
+              <td>
+                <select disabled>
+                  <option value="1">BOOLEAN</option>
+                  <option value="2">INTEGER8</option>
+                  <option value="3">INTEGER16</option>
+                  <option value="4">INTEGER32</option>
+                  <option value="5">UNSIGNED8</option>
+                  <option value="6">UNSIGNED16</option>
+                  <option value="7">UNSIGNED32</option>
+                  <option value="8">REAL32</option>
+                  <option value="9">VISIBLE_STRING</option>
+                  <option value="10">OCTET_STRING</option>
+                  <option value="11">UNICODE_STRING</option>
+                  <option value="12">TIME_OF_DAY</option>
+                  <option value="13">TIME_DIFFERENCE</option>
+                  <option value="15">DOMAIN</option>
+                  <option value="32">PDO_COMMUNICATION_PARAMETER</option>
+                  <option value="33">PDO_MAPPING</option>
+                  <option value="34">SDO_PARAMETER</option>
+                  <option value="35">IDENTITY</option>
+                </select>
+              </td>
+              <td>
+                <select disabled>
+                  <option>const</option>
+                  <option>ro</option>
+                  <option>rw</option>
+                  <option>wo</option>
+                </select>
+              </td>
+              <td>
+                <input type="text" maxlength="244" disabled>
+              </td>
+              <td>
+                <input type="text" maxlength="243" disabled>
+              </td>
+              <td>
+                <input type="text" maxlength="242" disabled>
+              </td>
+              <td>
+                <select disabled>
+                  <option value="0">no</option>
+                  <option value="1">yes</option>
+                </select>
+              </td>
+              <td>
+                <input type="checkbox" id="ofr">
+                <label for="ofr" title="Read">R</label>
+                <input type="checkbox" id="ofw">
+                <label for="ofw" title="Write">W</label>
+              </td>
+              <td>
+                <button type="button" class="btn" disabled>&#10010;</button>
+              </td>
+            </tfoot>
+          </table>
+          <legend>Object Dictonary</legend>
+        </fieldset>
+      </form>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/config-ini-parser@1.6.1/config-ini.js"></script>
+    <script src="eds.js"></script>
+  </body>
+</html>

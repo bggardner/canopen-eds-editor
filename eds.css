@@ -1,0 +1,225 @@
+*, ::after, ::before { box-sizing: border-box; }
+
+body {
+  font-size: 1rem;
+  font-family: monospace;
+  margin: 1rem;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+header {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  color: #333333;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+header hr {
+  border-bottom: 2px groove #c0c0c0;
+  border-left: none;
+  border-right: none;
+  border-top: 2px groove #c0c0c0;
+  flex-grow: 1;
+  height: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+table { width: 100%; }
+
+td, th {
+  padding: 0.25rem;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+select { overflow-y: auto; }
+
+select[multiple] option:checked {
+  background-color: #0d6efd;
+  color: #ffffff;
+}
+
+textarea { width: calc(100% - 0.375rem); }
+
+input[type="checkbox"] { display: none; }
+
+input[type="checkbox"]+label {
+  color: #0d6efd;
+  cursor: pointer;
+  border: 1px solid #0d6efd;
+  border-radius: 0.25rem;
+  display: inline-block;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 0rem 0.375rem;
+  transition: color .15s;
+  vertical-align: middle;
+}
+
+input[type="checkbox"]+label::before {
+  content: '☐';
+  margin-right: 0.5rem;
+}
+
+input[type="checkbox"]:checked+label {
+  background-color: #0d6efd;
+  color: #ffffff;
+}
+
+input[type="checkbox"]:checked+label::before {
+  content: '☑';
+}
+
+.btn:disabled,
+input[type="checkbox"]:disabled+label {
+  cursor: initial;
+  opacity: 0.65;
+}
+
+input[type="text"][maxlength="2"] { width: 1.5rem; }
+input[type="text"][maxlength="4"] { width: 3.5rem; }
+input[type="text"][maxlength="8"] { width: 5.5rem; }
+
+input+sub,
+select+sub {
+  position: relative;
+  left: -0.5rem;
+}
+
+fieldset th {
+  text-align: right;
+  width: 13rem;
+}
+
+fieldset thead th { text-align: left; }
+
+fieldset {
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+fieldset table { display: none; }
+
+fieldset table.show { display: table; }
+
+fieldset legend { cursor: pointer; }
+
+fieldset table+legend::before {
+  color: #666666;
+  content: '►';
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+fieldset table.show+legend::before {
+  content: '▼';
+}
+
+fieldset:not(:last-child) select[multiple],
+fieldset:not(:last-child) input:not([type="checkbox"]) {
+  text-align: right;
+  width: 20rem;
+}
+
+fieldset:last-child tbody tr:first-child,
+fieldset:last-child tfoot tr {
+  background-color: #cccccc;
+}
+
+fieldset:last-child tbody:hover > tr > * {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+fieldset:last-child th:nth-child(3),
+fieldset:last-child th:nth-child(3) input {
+  width: 100%;
+}
+
+fieldset:last-child table > * > tr > *:last-child {
+  background-color: #ffffff;
+  padding: 0;
+  width: 0;
+}
+
+fieldset:last-child > table > tbody > tr > td:nth-child(8) input,
+fieldset:last-child > table > tbody > tr:nth-child(2) > td:nth-child(9) input,
+fieldset:last-child > table > tbody > tr:not(:first-child) > td:nth-child(7) input {
+  width: 5.5rem;
+}
+
+.btn {
+  background-color: #0d6efd;
+  border: 1px outset #0d6efd;
+  border-radius: 0.25rem;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 0.25rem 0.5rem;
+  transition: color .15s;
+  vertical-align: middle;
+}
+
+.btn:hover:not(:disabled) {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.btn[data-role="remove"] {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn[data-role="remove"]:hover:not(:disabled) {
+  background-color: #bb2d3b;
+  border-color: #b02a37;
+}
+
+td[colspan="2"] label {
+  text-align: center;
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid > * {
+  grid-columns: auto;
+}
+
+[data-oc="6"]:not(.cso) tr:first-child td:nth-child(6) select,
+[data-oc="6"]:not(.cso) tr:first-child td:nth-child(7) select,
+[data-oc="6"]:not(.cso) tr:first-child td:nth-child(9) input,
+[data-oc="6"]:not(.cso) tr:first-child td:nth-child(10) select,
+[data-oc="8"]:not(.cso) tr:first-child td:nth-child(6) select,
+[data-oc="8"]:not(.cso) tr:first-child td:nth-child(7) select,
+[data-oc="8"]:not(.cso) tr:first-child td:nth-child(9) input,
+[data-oc="8"]:not(.cso) tr:first-child td:nth-child(10) select,
+[data-oc="9"]:not(.cso) tr:first-child td:nth-child(6) select,
+[data-oc="9"]:not(.cso) tr:first-child td:nth-child(7) select,
+[data-oc="9"]:not(.cso) tr:first-child td:nth-child(9) input,
+[data-oc="9"]:not(.cso) tr:first-child td:nth-child(10) select,
+.cso tr:nth-child(n+2) td:nth-child(5) select,
+.cso tr:nth-child(n+2) td:nth-child(6) select,
+.cso tr:nth-child(n+2) td:nth-child(7) input,
+.cso tr:nth-child(n+2) td:nth-child(8) input,
+.cso tr:nth-child(n+3) td:nth-child(9) input,
+.cso tr:nth-child(n+3) td:nth-child(10) select {
+  display: none;
+}
+
+#load { display: none; }

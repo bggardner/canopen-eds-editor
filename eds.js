@@ -829,7 +829,7 @@ document.addEventListener('DOMContentLoaded', event => {
       case 0x5: // DEFTYPE
       case 0x7: // VAR
         Array.from(dataType.options).forEach(element => {
-          element.disabled = !Object.keys(CanOpen.STANDARD_DATA_TYPES).includes(parseInt(element.value));
+          element.disabled = !Object.keys(CanOpen.STANDARD_DATA_TYPES).includes(element.value);
         });
         dataType.disabled = false;
         accessType.disabled = false;
@@ -863,7 +863,7 @@ document.addEventListener('DOMContentLoaded', event => {
     let html = `
 <tbody data-mi="${index.value}" data-oc="${tfoot.querySelector('td:nth-child(5) select').value}">
   <tr>
-    <td>${index.value}<sub>h</sub></td>
+    <td${[8, 9].includes(objectCode) ? ' rowspan="2"' : ''}>${index.value}<sub>h</sub></td>
     <td></td>
     <td><input type="text" maxlength="241" value="${tfoot.querySelector('td:nth-child(3) input').value}"></td>
     <td>${tfoot.querySelector('td:nth-child(4)').innerHTML}</td>
@@ -876,7 +876,25 @@ document.addEventListener('DOMContentLoaded', event => {
     <td>${tfoot.querySelector('td:nth-child(11)').innerHTML}</td>
     <td>${tfoot.querySelector('td:nth-child(12)').innerHTML}</td>
     <td><button type="button" class="btn" data-role="remove">&#10006;</button></td>
-  </tr>
+  </tr>`;
+  if ([8, 9].includes(objectCode)) {
+    html += `
+  <tr data-si="0">
+    <td>00<sub>h</sub></td>
+    <td><input type="text maxlength="241" value="Highest sub-index supported"></td>
+    <td></td>
+    <td>VAR</td>
+    <td></td>
+    <td></td>
+    <td><input type="text" maxlength="244"></td>
+    <td><input type="text" maxlength="243"></td>
+    <td><input type="text" value="0" maxlength="242"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>`;
+  }
+  html += `
 </tbody>`;
     tfoot.insertAdjacentHTML('beforebegin', html);
     [4, 6, 7, 11].forEach(n => {
